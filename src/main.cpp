@@ -1,7 +1,7 @@
 #include <iostream>
 #include "headers/spaceship.h"
 #include <SFML/Graphics.hpp>
-//#include <SFML/OpenGL.hpp>
+// #include <SFML/OpenGL.hpp>
 
 sf::RenderWindow window; // window
 sf::Event        event;  // events
