@@ -8,7 +8,6 @@ sf::Event        event;  // events
 Spaceship        player(&event, &window); // player
 Alien            alien(player, &window);  // Alien
 
-
 void handle_events(sf::RenderWindow &window, sf::Event &event)
 {
   while(window.pollEvent(event)) 
@@ -18,7 +17,6 @@ void handle_events(sf::RenderWindow &window, sf::Event &event)
         window.close();
         return;
       }
-
       player.input(&event);
   }
 }
@@ -42,7 +40,7 @@ void game_window(sf::RenderWindow &window)
     window.clear();
 
     player.ss_display();
-    alien.a_display(window);
+    alien.a_display();
     window.display();
   }
 }

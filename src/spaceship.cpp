@@ -15,7 +15,7 @@ void Spaceship::input(sf::Event* pevent)
 {
   if(pevent -> type == sf::Event::KeyPressed)
   {
-    switch(pevent   ->   key.code)
+    switch(pevent -> key.code)
     {
       case sf::Keyboard::A: 
         Spaceship::left();
@@ -26,7 +26,7 @@ void Spaceship::input(sf::Event* pevent)
         break;
 
       case sf::Keyboard::Space:
-        shoot = true;
+        bullet.visible = true;
         break;
 
       default:
@@ -35,7 +35,7 @@ void Spaceship::input(sf::Event* pevent)
   }
 }
 
-// movement
+// move left
 void Spaceship::left()
 {
   if(position[0] > -(pwindow  ->  getSize().x / 2.1f)) 
@@ -44,6 +44,7 @@ void Spaceship::left()
   }
 }
 
+// move right
 void Spaceship::right()
 {
   if(position[0] < (pwindow -> getSize().x / 2.1f))
@@ -66,11 +67,11 @@ void Spaceship::ss_display()
 
   // setup the sprite location
   ss_model.setOrigin(sf::Vector2f(
-        -(pwindow -> getSize().x * 4.8f) / 2.f, 
-        -(pwindow -> getSize().y * 4.5f)));
+        -(pwindow -> getSize().x * 5.68f) / 2.f, 
+        -(pwindow -> getSize().y * 5.3f)));
 
   // setup scale and texture
-  ss_model.setScale(sf::Vector2f(0.2f, 0.2f)); // ss_scale
+  ss_model.setScale(sf::Vector2f(0.17f, 0.17f)); // ss_scale
   ss_model.setTexture(ss_texture);             // ss_texture
 
   // draw this bad boi
@@ -80,22 +81,22 @@ void Spaceship::ss_display()
 
 void Spaceship::shot()
 {
-  // TODO: make the bullet show up
+  // TODO: make the bullet.b_model.disapear 
 
-  bullet.setSize(sf::Vector2f(3.f, 30.f)); bullet.setFillColor(sf::Color::Red);
-  bullet.setOrigin(sf::Vector2f( // set origin at spaceship position        
+  bullet.b_model.setSize(sf::Vector2f(3.f, 30.f)); bullet.b_model.setFillColor(sf::Color::Red);
+  bullet.b_model.setOrigin(sf::Vector2f( // set origin at spaceship position        
         -(pwindow -> getSize().x / 2.f) - position[0], 
         -(pwindow -> getSize().y / 1.15f)));
 
-  bullet.setPosition(0.f, position[1]);
+  bullet.b_model.setPosition(0.f, position[1]);
 
-  if(shoot)
+  if(bullet.visible)
   {
-    position[1] < -1000.f ? shoot = false : position[1] -= 25.f;
-    pwindow -> draw(bullet);
+    position[1] < -1000.f ? bullet.visible = false : position[1] -= 25.f;
+    pwindow -> draw(bullet.b_model);
   }
-  else
+  else 
   {
-    position[1] = { 0 };
+    position[1] = 0;
   }
 }

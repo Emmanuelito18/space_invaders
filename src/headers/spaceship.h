@@ -12,7 +12,10 @@ class Spaceship
 
   public:
 
-    sf::RectangleShape bullet;
+    struct {
+      sf::RectangleShape b_model;
+      bool visible = false;
+    } bullet;
 
     Spaceship( 
         sf::Event* event,
@@ -37,8 +40,15 @@ class Alien
     float position[2]{};
     bool visible = true;
 
-    sf::Sprite a_model[56];
-    sf::RectangleShape* another_b;
+    struct { // alien structure
+      sf::Sprite sprite;
+      bool visible = true;
+    } a_model[40];
+
+    struct {
+      sf::RectangleShape *b_model;
+      bool* visible;
+    } another_b;
     sf::RenderWindow* pwindow;
 
   public:
@@ -47,30 +57,9 @@ class Alien
         Spaceship &spaceship, 
         sf::RenderWindow* window);
 
-    void movement(
-        sf::RenderWindow &window);
-
-    void fire(
-        sf::RenderWindow &window);
-
-    void a_display(
-        sf::RenderWindow &window);
-};
-
-class Bullet
-{
-  protected:
-    bool shoot = true;
-    float position[2]{};
-
-    sf::RenderWindow* pwindow;
-    sf::RectangleShape bullet;
-
-  public:
-    
-    Bullet( 
-        sf::RenderWindow* window,
-        float p[2]);
+    void movement();
 
     void fire();
+
+    void a_display();
 };
