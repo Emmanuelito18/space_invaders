@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
-#include "headers/spaceship.h"
+#include "headers/entities.h"
+
 
 Spaceship::Spaceship( 
     sf::Event* event, 
@@ -60,9 +60,7 @@ void Spaceship::ss_display()
 
   if (!ss_texture.loadFromFile("assets/spaceship.png"))
   {
-    std::cout 
-      << "sfml: could not load texture"
-      << std::endl;
+    return;
   }
 
   // setup the sprite location
@@ -81,10 +79,7 @@ void Spaceship::ss_display()
 
 void Spaceship::shot()
 {
-  // TODO: make the bullet.b_model.disapear 
-
-  bullet.b_model.setSize(sf::Vector2f(3.f, 30.f)); bullet.b_model.setFillColor(sf::Color::Red);
-  bullet.b_model.setOrigin(sf::Vector2f( // set origin at spaceship position        
+  bullet.b_model.setSize(sf::Vector2f(3.f, 30.f)); bullet.b_model.setFillColor(sf::Color::Red); bullet.b_model.setOrigin(sf::Vector2f( // set origin at spaceship position        
         -(pwindow -> getSize().x / 2.f) - position[0], 
         -(pwindow -> getSize().y / 1.15f)));
 

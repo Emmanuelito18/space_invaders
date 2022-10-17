@@ -1,6 +1,6 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
-#include "headers/spaceship.h"
+#include "headers/entities.h"
+
 
 Alien::Alien(  
     Spaceship &spaceship, 
@@ -11,14 +11,57 @@ Alien::Alien(
   another_b.visible = &spaceship.bullet.visible; 
 }
 
-void Alien::movement()
+void Alien::movement(sf::Sprite* sprite)
 {
-  // TODO: 
+  float lim = pwindow -> getSize().x / 2.8f;
+
+  if (direction)
+  {
+    if (position[0] < lim)
+    {
+      sprite -> setPosition(position[0] += speed, position[1]);
+    }
+    else
+    {
+      speed += 0.05f;
+      sprite -> setPosition(position[0], position[1] += 50.f);
+      direction = false; 
+    }
+  }
+  else 
+  {
+    if (position[0] > 0)
+    {
+      sprite -> setPosition(position[0] += -(speed), position[1]);
+    }
+    else
+    {
+      speed += 0.05f;
+      sprite -> setPosition(position[0], position[1] += 50.f);
+      direction = true; 
+    }
+  }
 }
 
 void Alien::fire()
 {
   // TODO: fire 
+  bullet.b_model.setSize(sf::Vector2f(3.f, 30.f)); bullet.b_model.setFillColor(sf::Color::Red); bullet.b_model.setOrigin(sf::Vector2f( // set origin at spaceship position        
+        -(pwindow -> getSize().x / 2.f) - position[0], 
+        -(pwindow -> getSize().y / 1.15f)));
+
+  bullet.b_model.setPosition(0.f, position[1]);
+
+  if(bullet.visible)
+  {
+    position[1] < -1000.f ? bullet.visible = false : position[1] += 25.f;
+    pwindow -> draw(bullet.b_model);
+  }
+  else 
+  {
+    position[1] = 0;
+  }
+
 }
 
 void Alien::a_display()
@@ -27,9 +70,7 @@ void Alien::a_display()
 
   if (!a_texture.loadFromFile("assets/alien.png"))
   {
-    std::cout 
-      << "sfml: could not load texture"
-      << std::endl;
+    return;
   }
 
   // set bounds of bullet
@@ -55,7 +96,7 @@ void Alien::a_display()
 
     // setup the sprite location
     a_model[i].sprite.setOrigin(sf::Vector2f(
-      row -= (pwindow -> getSize().x / 10.f) + 400, 
+      row -= (pwindow -> getSize().x / 3.5f) + 200, 
       column));
     column_count++;
     
@@ -81,6 +122,7 @@ void Alien::a_display()
       if (a_model[i].visible)
       {
         pwindow -> draw(a_model[i].sprite);
+        movement(&a_model[i].sprite);
       }
     }
   } 

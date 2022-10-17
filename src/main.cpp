@@ -1,29 +1,17 @@
-#include <iostream>
-#include "headers/spaceship.h"
+#include "headers/entities.h"
 #include <SFML/Graphics.hpp>
 // #include <SFML/OpenGL.hpp>
 
-sf::RenderWindow window; // window
-sf::Event        event;  // events
+void run();
+void kill();
+
+sf::RenderWindow window;                  // window
+sf::Event        event;                   // events
 Spaceship        player(&event, &window); // player
 Alien            alien(player, &window);  // Alien
 
-void handle_events(sf::RenderWindow &window, sf::Event &event)
+void run()
 {
-  while(window.pollEvent(event)) 
-  {
-      if(event.type == sf::Event::Closed)
-      {
-        window.close();
-        return;
-      }
-      player.input(&event);
-  }
-}
-
-void game_window(sf::RenderWindow &window)
-{
-
   window.create(
     sf::VideoMode(2560, 1080),
     "Space Invaders",
@@ -35,20 +23,25 @@ void game_window(sf::RenderWindow &window)
 
   while(window.isOpen())
   {
-    handle_events(window, events);
 
-    window.clear();
-
-    player.ss_display();
-    alien.a_display();
-    window.display();
+    while(window.pollEvent(event)) 
+    {
+        if(event.type == sf::Event::Closed)
+        {
+          window.close();
+        }
+        player.input(&event);
+    }
+    window.clear();       // clear previous frame
+    player.ss_display();  // draw spaceship 
+    alien.a_display();    // draw aliens
+    window.display();     // display all
   }
 }
 
 int 
 main()
 {
-  game_window(window);
-
+  run();
   return 0;
 }
